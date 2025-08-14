@@ -54,7 +54,12 @@ if selected_mbti != "--당신의 MBTI는? 🤔--":
         for i, career in enumerate(careers):
             st.write(f"✨ {i+1}. **{career}**") # 목록 형태로 보여주기, 이모지와 볼드체!
         st.write("") # 공간 확보
-        st.info("💡 잊지 마세요! 이 추천은 MBTI 유형의 일반적인 특징을 바탕으로 한 안내일 뿐이에요. 가장 중요한분의 MBTI 유형을 쏙! 골라주시면, 멋진 직업들이 마법처럼 나타날 거예요! 🌈")
+        st.info("💡 잊지 마세요! 이 추천은 MBTI 유형의 일반적인 특징을 바탕으로 한 안내일 뿐이에요. 가장 중요한 건 바로 **강세영의 반짝이는 재능과 진심으로 원하는 마음**이라는 거! 😉")
+    else: # 만약 MBTI 정보가 없으면 (거의 없을 테지만)
+        st.warning("🚧 아쉽게도 이 MBTI 유형에 대한 직업 정보는 아직 준비되지 않았어요! 😥 얼른 추가해볼게요! ㅠㅠ")
+else:
+    st.write("") # 공간 확보
+    st.info("👆 위에서 여러분의 MBTI 유형을 쏙! 골라주시면, 멋진 직업들이 마법처럼 나타날 거예요! 🌈")
 
 st.markdown("---") # 맨 아래 구분선
 st.markdown("<div style='text-align: center; font-size: 1.2em;'>궁금한 점이 있거나 더 이야기 나누고 싶다면 언제든 나한테 물어봐줘! 🥳 환영이야! 😊</div>", unsafe_allow_html=True) # 마무리 메시지도 예쁘게!
