@@ -1,25 +1,26 @@
 import streamlit as st
 
-# 1. 🌈 페이지 설정: 제목이랑 간단한 설명 (이모지 뿜뿜!)
+# 1. 🌟 페이지 설정: 제목이랑 아이콘도 반짝반짝 빛나게!
 st.set_page_config(
-    page_title="💖 나를 찾아떠나는 MBTI 진로 탐험 🗺️", # 제목에 하트랑 지구본!
-    page_icon="✨" # 페이지 아이콘도 반짝반짝!
+    page_title="✨ 나만의 MBTI 진로 탐험 ✨", # 더 반짝이는 제목!
+    page_icon="🌈" # 무지개 아이콘으로 화사하게!
 )
 
-st.title("💡 나의 MBTI 진로 탐색기 💡") # 메인 타이틀
-st.write("---") # 구분을 위한 선!
+st.title("💖 나의 MBTI, 어떤 직업이 기다릴까? 💖") # 메인 타이틀은 하트 가득!
+st.write("---") # 구분을 위한 반짝이는 선!
 
-# 🚀 꿈을 찾아 떠나는 여정 시작!
+# 🚀 꿈을 향한 반짝이는 첫걸음! 🚀
 st.markdown("""
-<div style="text-align: center;">
-    <h3>내 MBTI는 과연 어떤 꿈을 꾸고 있을까? 💭</h3>
-    <h4>당신의 MBTI를 콕! 찍어 선택하고, 반짝이는 미래를 함께 탐험해봐요! ✨</h4>
+<div style="text-align: center; font-size: 1.2em;">
+    <p>내 MBTI 유형은 어떤 멋진 직업과 연결될까? 🤔</p>
+    <p>아래에서 당신의 MBTI를 콕! 찍어 선택하고, 반짝이는 미래를 함께 탐험해봐요! ✨</p>
+    <p>궁금증 해결하고 싶다면 👇👇</p>
 </div>
-""", unsafe_allow_html=True) # HTML로 가운데 정렬까지!
+""", unsafe_allow_html=True) # HTML로 더 예쁜 설명글!
 
-st.write("") # 공간 확보
+st.write("") # 공간 확보!
 
-# 2. 📚 MBTI 데이터 (이 부분은 강세영이 계속 채워나가야 해! 나중에 직업 설명도 넣자!)
+# 2. 📚 MBTI 데이터 (이모지로 직업에 생동감을!)
 mbti_careers = {
     "ISTJ": ["회계사 📊", "공무원 ✍️", "개발자 💻", "프로젝트 매니저 📋", "경찰관 👮"],
     "ISFJ": ["사회복지사 🤝", "간호사 👩‍⚕️", "유치원 교사 🍎", "사서 📚", "행정 보조원 📝"],
@@ -39,27 +40,36 @@ mbti_careers = {
     "ENTJ": ["사업가 📈", "경영 컨설턴트 💡", "변호사 👩‍⚖️", "리더 ✨", "프로젝트 총괄 🎯"]
 }
 
-# 3. 🤩 사용자 입력 받기: MBTI 선택
-mbti_types = ["--당신의 MBTI는? 🤔--"] + sorted(list(mbti_careers.keys())) # 드롭다운 메뉴도 더 친근하게!
-selected_mbti = st.selectbox("어떤 MBTI 타입이세요? 🕵️‍♀️", mbti_types)
+# 3. 🤩 당신의 MBTI는 무엇인가요?
+mbti_types = ["--- 나의 MBTI를 선택해주세요! 😊 ---"] + sorted(list(mbti_careers.keys())) # 드롭다운 메뉴도 더 예쁘게!
+selected_mbti = st.selectbox("🌈 당신의 MBTI 유형은 무엇인가요?", mbti_types) # 질문에도 이모지!
 
 st.write("---") # 구분을 위한 선!
 
-# 4. 💖 선택된 MBTI에 따라 직업 추천 보여주기 (반짝이는 이모지 추가!)
-if selected_mbti != "--당신의 MBTI는? 🤔--":
-    st.header(f"🌟 {selected_mbti} 친구들을 위한 반짝이는 직업 길라잡이! 💖")
+# 4. ✨ 선택된 MBTI에 따라 반짝이는 직업 추천! ✨
+if selected_mbti != "--- 나의 MBTI를 선택해주세요! 😊 ---":
+    st.header(f"🌟 {selected_mbti} 유형 친구들을 위한 ✨꿈의 직업 리스트✨")
+    st.write(f"🎉 **축하해요!** 당신의 {selected_mbti} 유형과 잘 어울리는 직업들을 찾아봤어요! 🎉")
+    st.write("") # 공간 확보
+
     careers = mbti_careers.get(selected_mbti, []) # 선택된 MBTI에 맞는 직업 리스트 가져오기
 
     if careers: # 직업 리스트가 비어있지 않다면
         for i, career in enumerate(careers):
-            st.write(f"✨ {i+1}. **{career}**") # 목록 형태로 보여주기, 이모지와 볼드체!
+            st.write(f"👉 **{career}**") # 목록 형태로 보여주기, 화살표랑 볼드체!
         st.write("") # 공간 확보
-        st.info("💡 잊지 마세요! 이 추천은 MBTI 유형의 일반적인 특징을 바탕으로 한 안내일 뿐이에요. 가장 중요한 건 바로 **강세영의 반짝이는 재능과 진심으로 원하는 마음**이라는 거! 😉")
+        st.info("💡 기억해! 이 추천은 당신의 MBTI 특징을 바탕으로 한 길라잡이일 뿐이야. 가장 중요한 건 바로 **강세영의 반짝이는 재능과 진심으로 좋아하는 마음**이라는 거! 💖 새로운 꿈을 향해 힘껏 나아가봐! 🚀")
     else: # 만약 MBTI 정보가 없으면 (거의 없을 테지만)
-        st.warning("🚧 아쉽게도 이 MBTI 유형에 대한 직업 정보는 아직 준비되지 않았어요! 😥 얼른 추가해볼게요! ㅠㅠ")
+        st.warning("🚧 아쉽게도 이 MBTI 유형에 대한 직업 정보는 아직 준비되지 않았어요! 😥 얼른 멋진 직업들을 찾아서 업데이트 해볼게요! ㅠㅠ")
 else:
     st.write("") # 공간 확보
-    st.info("👆 위에서 여러분의 MBTI 유형을 쏙! 골라주시면, 멋진 직업들이 마법처럼 나타날 거예요! 🌈")
+    st.info("👆 위에서 당신의 MBTI 유형을 선택하면, 당신에게 어울리는 꿈의 직업들이 반짝! 하고 나타날 거예요! ✨")
 
 st.markdown("---") # 맨 아래 구분선
-st.markdown("<div style='text-align: center; font-size: 1.2em;'>궁금한 점이 있거나 더 이야기 나누고 싶다면 언제든 나한테 물어봐줘! 🥳 환영이야! 😊</div>", unsafe_allow_html=True) # 마무리 메시지도 예쁘게!
+
+st.markdown("""
+<div style="text-align: center; font-size: 1.1em; color: #555555;">
+    <p>궁금한 점이 있다면 언제든지 나한테 이야기해줘! 🗣️</p>
+    <p>강세영의 멋진 미래를 항상 응원할게! 🥳 힘내자! ❤️‍🔥</p>
+</div>
+""", unsafe_allow_html=True) # 마무리 메시지도 더 예쁘고 따뜻하게!
