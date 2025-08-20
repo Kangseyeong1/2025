@@ -1,7 +1,6 @@
 # streamlit run main.py
 # -*- coding: utf-8 -*-
 import streamlit as st
-import math
 import re
 from collections import defaultdict
 
@@ -12,9 +11,7 @@ st.set_page_config(page_title="화학식 정보 사전", page_icon="🧪", layou
 
 st.markdown("""
     <style>
-        body {
-            background-color: #f0f7ff;
-        }
+        body { background-color: #f0f7ff; }
         .main-title {
             font-size: 40px; font-weight: bold; text-align: center; color: #004080; margin-bottom: 20px;
         }
@@ -22,10 +19,10 @@ st.markdown("""
             font-size: 22px; font-weight: bold; color: #0066cc; margin-top: 20px;
         }
         .compound-box {
-            background-color: #e6f2ff; 
-            border-radius: 12px; 
-            padding: 12px; 
-            margin: 6px 0; 
+            background-color: #e6f2ff;
+            border-radius: 12px;
+            padding: 12px;
+            margin: 6px 0;
             border: 1px solid #b3d1ff;
             font-size: 16px;
             color: #003366;
@@ -39,6 +36,24 @@ st.markdown("""
             padding: 18px;
             margin-top: 15px;
             box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            color: #102a43;
+        }
+        .info-row {
+            display: grid;
+            grid-template-columns: 130px 1fr;
+            padding: 6px 0;
+            border-bottom: 1px solid #e0e0e0;
+            align-items: center;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #0b69a3;
+        }
+        .info-value {
+            color: #102a43;
+        }
+        .info-card .info-row:last-child {
+            border-bottom: none;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -66,8 +81,7 @@ def parse_formula(formula: str):
     tokens = TOKEN.findall(formula.replace(' ', ''))
     stack = [defaultdict(int)]
     i = 0
-    def add(sym, n):
-        stack[-1][sym] += n
+    def add(sym, n): stack[-1][sym] += n
     while i < len(tokens):
         t = tokens[i]
         if t == '(':
@@ -77,8 +91,7 @@ def parse_formula(formula: str):
             if i < len(tokens) and tokens[i].isdigit():
                 mult = int(tokens[i]); i += 1
             group = stack.pop()
-            for k, v in group.items():
-                add(k, v * mult)
+            for k, v in group.items(): add(k, v * mult)
         elif t.isdigit():
             raise ValueError("숫자가 앞에 오는 표기는 지원하지 않습니다.")
         else:
@@ -86,8 +99,7 @@ def parse_formula(formula: str):
             if i < len(tokens) and tokens[i].isdigit():
                 mult = int(tokens[i]); i += 1
             add(sym, mult)
-    if len(stack) != 1:
-        raise ValueError("괄호 처리 오류")
+    if len(stack) != 1: raise ValueError("괄호 처리 오류")
     return dict(stack[0])
 
 # =====================================
@@ -166,44 +178,47 @@ for i, (f, info) in enumerate(COMPOUNDS.items()):
     col.markdown(f'<div class="compound-box">{info["이름"]} ({f})</div>', unsafe_allow_html=True)
 
 # =====================================
-# 사용자 입력
+# 검색 입력
 # =====================================
 user_input = st.text_input("🔎 화학식 또는 한글 이름을 입력하세요:")
 if user_input:
-    formula = NAME_TO_FORMULA.get(user_input, user_input)
+    formula = NAME_TO_FORMULA.get(user_input.strip(), user_input.strip())
     if formula not in COMPOUNDS:
         st.error("해당 화합물은 데이터베이스에 없습니다.")
     else:
         info = COMPOUNDS[formula]
-        st.markdown('<div class="sub-title">기본 정보</div>', unsafe_allow_html=True)
-        with st.container():
-            st.markdown(
-                f"""
-                <div class="info-card">
-                <b>이름:</b> {info['이름']} ({formula})  
-                <b>상태(상온):</b> {info['상태(상온)']}  
-                <b>종류:</b> {info['종류']}  
-                <b>설명:</b> {info['설명']}  
-                <b>물리적 성질:</b> {info['물리적 성질']}  
-                <b>안전:</b> {info['안전']}  
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
 
-        # 원소 조성 분석
+        # ----- 기본 정보 (아이콘 포함 카드) -----
+        st.markdown('<div class="sub-title">기본 정보</div>', unsafe_allow_html=True)
+        st.markdown(
+            f"""
+            <div class="info-card">
+                <div class="info-row"><div class="info-label">🧪 이름</div><div class="info-value">{info['이름']} ({formula})</div></div>
+                <div class="info-row"><div class="info-label">🌡️ 상태(상온)</div><div class="info-value">{info['상태(상온)']}</div></div>
+                <div class="info-row"><div class="info-label">📂 종류</div><div class="info-value">{info['종류']}</div></div>
+                <div class="info-row"><div class="info-label">📝 설명</div><div class="info-value">{info['설명']}</div></div>
+                <div class="info-row"><div class="info-label">⚛️ 물리적 성질</div><div class="info-value">{info['물리적 성질']}</div></div>
+                <div class="info-row"><div class="info-label">⚠ 안전</div><div class="info-value">{info['안전']}</div></div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        # ----- 원소 조성 및 몰질량 -----
         try:
             comp = parse_formula(formula)
             st.markdown('<div class="sub-title">원소 조성 및 몰질량</div>', unsafe_allow_html=True)
-            total_mass = 0
+            total_mass = 0.0
             rows = []
             for el, count in comp.items():
                 if el in ATOMIC_DATA:
                     mass, kr = ATOMIC_DATA[el]
                     subtotal = mass * count
                     total_mass += subtotal
-                    rows.append((f"{el} ({kr})", count, subtotal))
+                    rows.append((f"{el} ({kr})", count, round(subtotal, 3)))
+                else:
+                    rows.append((f"{el} (데이터 없음)", count, None))
             st.table({"원소": [r[0] for r in rows], "개수": [r[1] for r in rows], "질량(g/mol)": [r[2] for r in rows]})
-            st.write(f"**총 몰질량**: {total_mass:.3f} g/mol")
+            st.success(f"총 몰질량: {total_mass:.3f} g/mol")
         except Exception as e:
             st.error(f"원소 분석 오류: {e}")
