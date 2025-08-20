@@ -78,7 +78,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<div class="main-title">🧪🔬 화학식 정보 사전</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-title">🧪🔬 화합물 정보 사전</div>', unsafe_allow_html=True)
 st.write("H2O, CO2 같은 화학식이나 '물', '이산화탄소' 같은 한글 이름을 입력하면 정보를 알려줍니다.")
 
 # =====================================
