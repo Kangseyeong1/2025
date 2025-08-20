@@ -195,7 +195,7 @@ if user_input:
 
         st.subheader("기본 정보")
         if info:
-            st.write(f"**이름:** {info['이름']}")
+            st.write(f"**이름:** {info['이름']} ({key_like})")
             st.write(f"**종류:** {info['종류']} | **상태(상온):** {info['상태(상온)']}")
             st.write(f"**설명:** {info['설명']}")
             st.write(f"**물리적 성질:** {info['물리적 성질']}")
