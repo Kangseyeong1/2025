@@ -1,4 +1,4 @@
-# streamlit run main.py 로 실행하세요
+# streamlit run main.py
 # -*- coding: utf-8 -*-
 import streamlit as st
 import math
@@ -177,16 +177,19 @@ if user_input:
         info = COMPOUNDS[formula]
         st.markdown('<div class="sub-title">기본 정보</div>', unsafe_allow_html=True)
         with st.container():
-            st.markdown(f"""
-            <div class="info-card">
-                <b>이름:</b> {info['이름']} ({formula})<br>
-                <b>상태(상온):</b> {info['상태(상온)']}<br>
-                <b>종류:</b> {info['종류']}<br>
-                <b>설명:</b> {info['설명']}<br>
-                <b>물리적 성질:</b> {info['물리적 성질']}<br>
-                <b>안전:</b> {info['안전']}
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown(
+                f"""
+                <div class="info-card">
+                <b>이름:</b> {info['이름']} ({formula})  
+                <b>상태(상온):</b> {info['상태(상온)']}  
+                <b>종류:</b> {info['종류']}  
+                <b>설명:</b> {info['설명']}  
+                <b>물리적 성질:</b> {info['물리적 성질']}  
+                <b>안전:</b> {info['안전']}  
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
         # 원소 조성 분석
         try:
