@@ -7,7 +7,7 @@ from collections import defaultdict
 # =====================================
 # 기본 설정 & CSS
 # =====================================
-st.set_page_config(page_title="화학식 정보 사전", page_icon="🧪", layout="wide")
+st.set_page_config(page_title="화합물 정보 사전", page_icon="🧪", layout="wide")
 
 st.markdown("""
     <style>
