@@ -29,9 +29,10 @@ st.markdown("""
             color: rgba(0,0,0,0.05);
             width: 100%;
             height: 100%;
-            z-index: 0;
+            z-index: -1;        /* 뒤로 보내기 */
             display: flex;
             flex-wrap: wrap;
+            pointer-events: none; /* 클릭/텍스트 방해 안함 */
         }
         .main-title {
             font-size: 42px; font-weight: bold; text-align: center; color: #1a237e; margin-bottom: 20px;
