@@ -11,54 +11,74 @@ st.set_page_config(page_title="화학식 정보 사전", page_icon="🧪", layou
 
 st.markdown("""
     <style>
-        body { background-color: #f0f7ff; }
+        body { 
+            background: linear-gradient(to bottom, #e0f7ff 0%, #ffffff 100%);
+            font-family: 'Arial', sans-serif;
+        }
         .main-title {
-            font-size: 40px; font-weight: bold; text-align: center; color: #004080; margin-bottom: 20px;
+            font-size: 42px; font-weight: bold; text-align: center; color: #1a237e; margin-bottom: 20px;
+            text-shadow: 1px 1px 2px #90caf9;
         }
         .sub-title {
-            font-size: 22px; font-weight: bold; color: #0066cc; margin-top: 20px;
+            font-size: 22px; font-weight: bold; color: #1565c0; margin-top: 20px; text-shadow: 1px 1px 1px #bbdefb;
         }
         .compound-box {
-            background-color: #e6f2ff;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 14px;
             padding: 12px;
             margin: 6px 0;
-            border: 1px solid #b3d1ff;
+            border: 2px solid #90caf9;
             font-size: 16px;
-            color: #003366;
+            color: #0d47a1;
             text-align: center;
             font-weight: 500;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
+        .compound-box:hover {
+            background: rgba(144, 202, 249, 0.3);
+            cursor: pointer;
         }
         .info-card {
-            background-color: #ffffff;
-            border: 2px solid #99ccff;
-            border-radius: 15px;
-            padding: 18px;
+            background: rgba(255,255,255,0.85);
+            border: 2px solid #64b5f6;
+            border-radius: 20px;
+            padding: 20px;
             margin-top: 15px;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
-            color: #102a43;
+            box-shadow: 3px 3px 12px rgba(0,0,0,0.15);
+            color: #0d1b2a;
         }
         .info-row {
             display: grid;
-            grid-template-columns: 130px 1fr;
+            grid-template-columns: 140px 1fr;
             padding: 6px 0;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid #cfd8dc;
             align-items: center;
         }
         .info-label {
             font-weight: 600;
-            color: #0b69a3;
+            color: #1e88e5;
+            font-size: 16px;
         }
         .info-value {
-            color: #102a43;
+            color: #0d1b2a;
+            font-size: 15px;
         }
         .info-card .info-row:last-child {
             border-bottom: none;
         }
+        input[type="text"] {
+            border-radius: 12px;
+            border: 2px solid #64b5f6;
+            padding: 8px;
+            width: 100%;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<div class="main-title">🧪 화학식 정보 사전</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-title">🧪🔬 실험실 화학식 정보 사전</div>', unsafe_allow_html=True)
 st.write("H2O, CO2 같은 화학식이나 '물', '이산화탄소' 같은 한글 이름을 입력하면 정보를 알려줍니다.")
 
 # =====================================
