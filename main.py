@@ -10,7 +10,7 @@ from collections import defaultdict
 # =====================================
 st.set_page_config(page_title="화학식 정보 사전", page_icon="🧪")
 st.title("🧪 화학식 정보 사전 (고등학생용)")
-st.write("예: H2O, CO2, NaCl 같은 화학식의 기본 정보를 보여주고, 몰질량과 구성비를 계산합니다.")
+st.write("예: H2O, CO2, NaCl 같은 화학식이나 '물', '이산화탄소', '소금' 같은 한글 이름을 입력하면 정보를 보여줍니다.")
 
 # =====================================
 # 원자량 데이터 + 한국어 이름
@@ -88,6 +88,14 @@ COMPOUNDS = {
     }
 }
 
+# 한글 이름 → 화학식 매핑
+NAME_TO_FORMULA = {
+    "물": "H2O",
+    "이산화탄소": "CO2",
+    "소금": "NaCl",
+    "염화나트륨": "NaCl"
+}
+
 # =====================================
 # 계산 함수
 # =====================================
@@ -103,9 +111,15 @@ def molar_mass(comp: dict):
 # =====================================
 # 입력 영역
 # =====================================
-formula = st.text_input("화학식 입력", value="H2O", help="예: H2O, CO2, NaCl, Ca(OH)2")
+user_input = st.text_input("화학식 또는 한글 이름 입력", value="H2O", help="예: H2O, CO2, NaCl 또는 물, 이산화탄소, 소금")
 
-if formula:
+if user_input:
+    formula = user_input.strip()
+    # 한글 이름이면 화학식으로 변환
+    if formula in NAME_TO_FORMULA:
+        formula = NAME_TO_FORMULA[formula]
+        st.info(f"입력한 '{user_input}' 은(는) '{formula}' 화학식으로 변환되었습니다.")
+
     try:
         comp = parse_formula(formula)
         M = molar_mass(comp)
@@ -148,4 +162,3 @@ if formula:
 
 st.divider()
 st.caption("※ 교육용 간이 도구입니다. 정확한 수치/안전 정보는 교과서와 공인 자료를 확인하세요.")
-
