@@ -5,22 +5,44 @@ import re
 from collections import defaultdict
 
 # =====================================
-# 기본 설정 & CSS
+# 페이지 설정
 # =====================================
 st.set_page_config(page_title="화학식 정보 사전", page_icon="🧪", layout="wide")
 
+# =====================================
+# CSS: 실험실 테마 + 하늘색 배경 + 시험관/플라스크 아이콘
+# =====================================
 st.markdown("""
     <style>
         body { 
-            background: linear-gradient(to bottom, #e0f7ff 0%, #ffffff 100%);
+            background: linear-gradient(to bottom, #a0d8f1 0%, #ffffff 100%);
             font-family: 'Arial', sans-serif;
+            position: relative;
+        }
+        /* 배경 아이콘 */
+        body::before {
+            content: "⚗️🔬⚗️🔬⚗️";
+            position: fixed;
+            top: 0;
+            left: 0;
+            font-size: 50px;
+            color: rgba(0,0,0,0.05);
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            display: flex;
+            flex-wrap: wrap;
         }
         .main-title {
             font-size: 42px; font-weight: bold; text-align: center; color: #1a237e; margin-bottom: 20px;
             text-shadow: 1px 1px 2px #90caf9;
+            z-index: 1;
+            position: relative;
         }
         .sub-title {
             font-size: 22px; font-weight: bold; color: #1565c0; margin-top: 20px; text-shadow: 1px 1px 1px #bbdefb;
+            z-index: 1;
+            position: relative;
         }
         .compound-box {
             background: rgba(255, 255, 255, 0.7);
@@ -34,6 +56,8 @@ st.markdown("""
             font-weight: 500;
             box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
             transition: 0.3s;
+            z-index: 1;
+            position: relative;
         }
         .compound-box:hover {
             background: rgba(144, 202, 249, 0.3);
@@ -47,6 +71,8 @@ st.markdown("""
             margin-top: 15px;
             box-shadow: 3px 3px 12px rgba(0,0,0,0.15);
             color: #0d1b2a;
+            z-index: 1;
+            position: relative;
         }
         .info-row {
             display: grid;
@@ -78,6 +104,9 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# =====================================
+# 페이지 제목
+# =====================================
 st.markdown('<div class="main-title">🧪🔬 실험실 화학식 정보 사전</div>', unsafe_allow_html=True)
 st.write("H2O, CO2 같은 화학식이나 '물', '이산화탄소' 같은 한글 이름을 입력하면 정보를 알려줍니다.")
 
@@ -96,7 +125,6 @@ ATOMIC_DATA = {
 # 화학식 파서
 # =====================================
 TOKEN = re.compile(r"([A-Z][a-z]?|\(|\)|\d+)")
-
 def parse_formula(formula: str):
     tokens = TOKEN.findall(formula.replace(' ', ''))
     stack = [defaultdict(int)]
@@ -123,7 +151,7 @@ def parse_formula(formula: str):
     return dict(stack[0])
 
 # =====================================
-# 화합물 데이터베이스
+# 화합물 데이터
 # =====================================
 COMPOUNDS = {
     "H2O": {"이름": "물", "상태(상온)": "액체", "종류": "산화물",
@@ -177,7 +205,7 @@ COMPOUNDS = {
 }
 
 # =====================================
-# 한글 이름 → 화학식 변환
+# 한글 이름 → 화학식
 # =====================================
 NAME_TO_FORMULA = {
     "물": "H2O", "이산화탄소": "CO2", "소금": "NaCl", "염화나트륨": "NaCl",
@@ -188,7 +216,7 @@ NAME_TO_FORMULA = {
 }
 
 # =====================================
-# 지원 화합물 목록 (카드 스타일)
+# 검색 가능한 화합물 목록
 # =====================================
 st.markdown('<div class="sub-title">📖 검색 가능한 화합물 목록</div>', unsafe_allow_html=True)
 cols = st.columns(2)
@@ -208,7 +236,7 @@ if user_input:
     else:
         info = COMPOUNDS[formula]
 
-        # ----- 기본 정보 (아이콘 포함 카드) -----
+        # 기본 정보 카드
         st.markdown('<div class="sub-title">기본 정보</div>', unsafe_allow_html=True)
         st.markdown(
             f"""
@@ -224,7 +252,7 @@ if user_input:
             unsafe_allow_html=True
         )
 
-        # ----- 원소 조성 및 몰질량 -----
+        # 원소 조성 및 몰질량
         try:
             comp = parse_formula(formula)
             st.markdown('<div class="sub-title">원소 조성 및 몰질량</div>', unsafe_allow_html=True)
